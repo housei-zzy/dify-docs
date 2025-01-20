@@ -1,0 +1,50 @@
+name: Build and Package GitBook
+
+on:
+  workflow_dispatch:  # 手动触发
+  push:
+    branches:
+      - main  # 替换为你的默认分支名称
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 检出代码
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 进入 zh_CN 文件夹
+    - name: Change directory to zh_CN
+      working-directory: ./zh_CN
+      run: echo "Changed directory to zh_CN"
+
+    # 设置 Node.js 环境
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    # 安装 GitBook CLI
+    - name: Install GitBook CLI
+      run: |
+        npm install -g gitbook-cli
+        gitbook install
+
+    # 构建 GitBook
+    - name: Build GitBook
+      run: gitbook build
+
+    # 打包 _book 文件夹为 ZIP
+    - name: Package _book as ZIP
+      run: |
+        zip -r gitbook_build.zip _book
+      working-directory: ./zh_CN
+
+    # 保存 ZIP 文件到 GitHub Actions 的工件
+    - name: Upload ZIP artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: gitbook-build
+        path: ./zh_CN/gitbook_build.zip
