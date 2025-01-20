@@ -30,7 +30,6 @@ jobs:
     - name: Install HonKit
       run: |
         npm install -g honkit
-        npm install honkit-pdf
       working-directory: ./zh_CN
 
     # 构建 GitBook
