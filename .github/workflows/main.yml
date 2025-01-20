@@ -24,18 +24,18 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '10'
+        node-version: '18'
 
     # 安装 GitBook CLI
-    - name: Install GitBook CLI
+    - name: Install HonKit
       run: |
-        npm install -g gitbook-cli
-        gitbook install
+        npm install -g honkit
+        npm install honkit-pdf
       working-directory: ./zh_CN
 
     # 构建 GitBook
     - name: Build GitBook
-      run: gitbook build .
+      run: honkit build .
       working-directory: ./zh_CN
 
     # 打包 _book 文件夹为 ZIP
