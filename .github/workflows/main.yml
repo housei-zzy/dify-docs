@@ -31,10 +31,12 @@ jobs:
       run: |
         npm install -g gitbook-cli
         gitbook install
+      working-directory: ./zh_CN
 
     # 构建 GitBook
     - name: Build GitBook
-      run: gitbook build
+      run: gitbook build .
+      working-directory: ./zh_CN
 
     # 打包 _book 文件夹为 ZIP
     - name: Package _book as ZIP
